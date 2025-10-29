@@ -53,4 +53,54 @@ sources:
             description: logistics cost
           - name: ship_cost
             description: shipping cos added to log cost
-
+models:
+  - name: int_sales_margin
+    description: joining sales and product to obtain pruchase cost and margin calcs
+    columns:
+      - name: orders_id
+        description: order_id
+        tests:
+          - not_null
+      - name: products_id
+        description: products_id
+      - name: date_date
+        description: date of order
+  - name: int_orders_margin
+    description: margins by orders
+    columns:
+      - name: orders_id
+        description: order_id
+        tests:
+          - unique
+          - not_null
+  - name: int_orders_operational
+    description: orders to ship for op costs
+    columns:
+      - name: date_date
+        description: date of orders
+        tests: 
+          - not_null
+  - name: finance_days
+    description: daily KPIs
+    columns:
+      - name: date_date
+        description: date of orders
+        tests: 
+          - unique
+          - not_null
+      - name: nb_transactions
+        description: number of transactions
+      - name: total_revenue
+        description: total rev calc
+      - name: avg_basket
+        description: averaging basket size, revn/order_num
+      - name: operating_margin
+        description: operating margin
+      - name: total_purchase_cost
+        description: sum of purchase cost
+      - name: total_ship_fee
+        description: sum of ship_fee
+      - name: total_log_cost
+        description: sum of log_cost
+      - name: total_quantity
+        description: sum of quantity
