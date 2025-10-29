@@ -13,10 +13,44 @@ sources:
       - name: sales
         identifier: raw_gz_sales
         description: This is the sales sheet for gz
+        tests: 
+            - unique: 
+                column_name: "( orders_id || '_' || pdt_id )"
+        columns:
+          - name: date_date
+            description: date of purchase
+          - name: orders_id
+            description: provides unique id for each order
+          - name: pdt_id
+            description: showes purchase_id
+          - name: revenue
+            description: shows revenue created from order
+          - name: quantity
+            description: quantity of products ordered
       - name: product
         identifier: raw_gz_product
         description: This is the product table for gz
+        columns:
+          - name: products_id
+            description: showes product_id
+            tests: 
+              - unique
+              - not_null
+          - name: purchse_price 
+            description: price for product
       - name: ship
         identifier: raw_gz_ship
         description: This is the ship table for gz
+        columns:
+          - name: orders_id
+            description: showes order_id
+            tests: 
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: shipping price
+          - name: logcost
+            description: logistics cost
+          - name: ship_cost
+            description: shipping cos added to log cost
 
