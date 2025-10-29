@@ -2,13 +2,14 @@
 WITH product_sales_join AS (
 SELECT
 products_id
-,ROUND(SUM(revenue),2) AS revenue
-,ROUND(SUM(quantity),2) AS quantity
-,ROUND(SUM(quantity * purchase_price),2) AS purchase_cost
+,orders_id
+,date_date
+,ROUND(revenue,2) AS revenue
+,ROUND(quantity,2) AS quantity
+,ROUND(quantity * purchase_price,2) AS purchase_cost
 FROM {{ ref('stg_gz_data__sales') }}
 INNER JOIN {{ ref('stg_gz_data__product') }}
 USING (products_id)
-GROUP BY products_id
 )
 SELECT
 *
