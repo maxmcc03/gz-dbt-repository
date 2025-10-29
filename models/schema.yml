@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: gz_data
+    database: adept-array-475009-b8
+    schema: gz_raw_data
+    loader: bigquery
+    description: This is the raw data of gz
+    freshness:
+      warn_after: {count: 12, period: hour}
+      error_after: {count: 24, period: hour}
+    tables:
+      - name: sales
+        description: This is the sales sheet for gz
+      - name: product
+        description: This is the product table for gz
+      - name: ship
+        description: This is the ship table for gz
+
