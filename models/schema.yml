@@ -53,6 +53,18 @@ sources:
             description: logistics cost
           - name: ship_cost
             description: shipping cos added to log cost
+      - name: adwords
+        identifier: raw_gz_adwords
+        description: ad data from adword
+      - name: criteo
+        identifier: raw_gz_criteo
+        description: ad data from criteo
+      - name: bing
+        identifier: raw_gz_bing
+        description: ad data from bing
+      - name: facebook
+        identifier: raw_gz_facebook
+        description: ad data from facebook
 models:
   - name: int_sales_margin
     description: joining sales and product to obtain pruchase cost and margin calcs
@@ -104,3 +116,25 @@ models:
         description: sum of log_cost
       - name: total_quantity
         description: sum of quantity
+  - name: int_campaigns
+    description: ad data for all campaigns
+    tests: 
+      - unique: 
+          column_name: "( date_date || '-' || campaign_key )"
+    columns:
+      - name: date_date
+        description: date of cost
+      - name: paid_source
+        description: source (adword,criteo,bing,facebook)
+      - name: campaign_key
+        description: key of campaign
+      - name: campgn_name
+        description: name of campaign
+      - name: ads_cost
+        description: cost of ads
+      - name: impression
+        description: impressions
+      - name: click
+        description: click count 
+
+        
