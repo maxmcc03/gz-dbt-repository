@@ -1,0 +1,106 @@
+version: 2
+
+sources:
+  - name: gz_data
+    database: adept-array-475009-b8
+    schema: gz_raw_data
+    loader: bigquery
+    description: This is the raw data of gz
+    freshness:
+      warn_after: {count: 12, period: hour}
+      error_after: {count: 24, period: hour}
+    tables:
+      - name: sales
+        identifier: raw_gz_sales
+        description: This is the sales sheet for gz
+        tests: 
+            - unique: 
+                column_name: "( orders_id || '_' || pdt_id )"
+        columns:
+          - name: date_date
+            description: date of purchase
+          - name: orders_id
+            description: provides unique id for each order
+          - name: pdt_id
+            description: showes purchase_id
+          - name: revenue
+            description: shows revenue created from order
+          - name: quantity
+            description: quantity of products ordered
+      - name: product
+        identifier: raw_gz_product
+        description: This is the product table for gz
+        columns:
+          - name: products_id
+            description: showes product_id
+            tests: 
+              - unique
+              - not_null
+          - name: purchse_price 
+            description: price for product
+      - name: ship
+        identifier: raw_gz_ship
+        description: This is the ship table for gz
+        columns:
+          - name: orders_id
+            description: showes order_id
+            tests: 
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: shipping price
+          - name: logcost
+            description: logistics cost
+          - name: ship_cost
+            description: shipping cos added to log cost
+models:
+  - name: int_sales_margin
+    description: joining sales and product to obtain pruchase cost and margin calcs
+    columns:
+      - name: orders_id
+        description: order_id
+        tests:
+          - not_null
+      - name: products_id
+        description: products_id
+      - name: date_date
+        description: date of order
+  - name: int_orders_margin
+    description: margins by orders
+    columns:
+      - name: orders_id
+        description: order_id
+        tests:
+          - unique
+          - not_null
+  - name: int_orders_operational
+    description: orders to ship for op costs
+    columns:
+      - name: date_date
+        description: date of orders
+        tests: 
+          - not_null
+  - name: finance_days
+    description: daily KPIs
+    columns:
+      - name: date_date
+        description: date of orders
+        tests: 
+          - unique
+          - not_null
+      - name: nb_transactions
+        description: number of transactions
+      - name: total_revenue
+        description: total rev calc
+      - name: avg_basket
+        description: averaging basket size, revn/order_num
+      - name: operating_margin
+        description: operating margin
+      - name: total_purchase_cost
+        description: sum of purchase cost
+      - name: total_ship_fee
+        description: sum of ship_fee
+      - name: total_log_cost
+        description: sum of log_cost
+      - name: total_quantity
+        description: sum of quantity
